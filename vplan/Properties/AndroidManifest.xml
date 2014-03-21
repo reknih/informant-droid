@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.3.2" package="vplan.vplan" android:versionCode="9">
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
+	<application android:label="CWS Informant" android:theme="@android:style/Theme.Holo.Light" android:icon="@drawable/icon">
+	</application>
+	<uses-permission android:name="android.permission.INTERNET" />
+</manifest>
