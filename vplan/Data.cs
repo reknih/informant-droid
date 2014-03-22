@@ -151,9 +151,9 @@ namespace vplan
 				fach = "Französich";
 				break;
 			case "SP":
-				fach = "Spanisch";
+				fach = "Sport";
 				break;
-			case "SP3":
+			case "SPA":
 				fach = "Spanisch";
 				break;
 			case "DS":
