@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Globalization;
 
 namespace vplan
@@ -61,6 +62,10 @@ namespace vplan
 				else {
 					Line2 = "Mit " + Lehrer + " und " + Klasse;
 				}
+            }
+			else if (Lehrer == "" || AltFach == "")
+			{
+				Line2 = "Bei " + Vertreter + " in " + Raum;
 			}
 			else if (Fach != AltFach)
 			{
@@ -78,10 +83,12 @@ namespace vplan
 			{
 				Line2 = "Raum: " + Raum + " | " + Lehrer;
 			}
-			if (Notiz != "")
-			{
-				Line2 = Notiz + "; " + Line2;
-			}
+            if (Notiz != "")
+            {
+				Notiz = Regex.Replace(Notiz, "((?<=\\p{Ll})\\p{Lu})|((?!\\A)\\p{Lu}(?>\\p{Ll})|\\d)", " $0");
+				Notiz = Regex.Replace(Notiz, "(\\.(?=\\S)|:(?=\\S))(.)", "$1 $2");
+                Line2 = Notiz + "; " + Line2;
+            }
 		}
 		public Data(string std, string fach, string lehr, string vertr, string raum, string notiz)
 		{
