@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vplan", "vplan\vplan.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotifyService", "NotifyService\NotifyService.csproj", "{4A12D3E9-3850-4047-AA57-C9A08103A3E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntisExport", "..\..\..\Projects\informant-core\informant-core\UntisExport.csproj", "{7E2DE76A-BF93-4B36-9223-D996F1C746CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4A12D3E9-3850-4047-AA57-C9A08103A3E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A12D3E9-3850-4047-AA57-C9A08103A3E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A12D3E9-3850-4047-AA57-C9A08103A3E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE5FF92D-4430-423F-B453-3CD8CF1FF6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE5FF92D-4430-423F-B453-3CD8CF1FF6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE5FF92D-4430-423F-B453-3CD8CF1FF6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
