@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using UntisExp;
 
 namespace vplan
 {
@@ -32,7 +33,7 @@ namespace vplan
 			ImageButton refresh = FindViewById<ImageButton> (Resource.Id.button2);
 			refresh.Clickable = false;
 			refresh.Click += (sender, e) => {
-				fetcher = new Fetcher(this);
+				fetcher = new Fetcher(clear, toast, Refresh, add);
 				fetcher.getTimes ((int)settings.read("group"), false);
 				list.Clear();
 			};
@@ -47,7 +48,7 @@ namespace vplan
 			pd.Show ();
 			try {
 				int group = (int)settings.read ("group");
-				fetcher = new Fetcher (this);
+				fetcher = new Fetcher (clear, toast, Refresh, add);
 				fetcher.getTimes (group, false);
 				list.Clear();
 			} catch {
@@ -55,7 +56,7 @@ namespace vplan
 				StartActivity(set);
 			}
 		}
-		public void refresh(List<Data> v1) {
+		public void Refresh(List<Data> v1) {
 			RunOnUiThread(() => 
 				{
 					list.AddRange(v1);
@@ -77,9 +78,9 @@ namespace vplan
 		public void add(Data v1) {
 			var l = new List<Data>();
 			l.Add(v1);
-			refresh(l);
+			Refresh(l);
 		}
-		public void toast(string str) {
+		public void toast(string t, string str, string i) {
 			RunOnUiThread (() => {
 				pd.Dismiss ();
 				Toast.MakeText (this, str, ToastLength.Long).Show ();
