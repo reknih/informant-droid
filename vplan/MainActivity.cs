@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 using Android.OS;
 using UntisExp;
 
@@ -22,6 +23,8 @@ namespace vplan
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			Typeface.Default = Typeface.CreateFromAsset (Assets, "SourceSansPro-Regular.ttf");
+			Typeface.DefaultBold = Typeface.CreateFromAsset (Assets, "SourceSansPro-Bold.ttf");
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 			lv = FindViewById<ListView>(Resource.Id.lv);
@@ -64,7 +67,7 @@ namespace vplan
 						list.Add(new Data());
 					}
 					pd.Dismiss();
-					lv.Adapter = new DataAdapter (this, list);
+					lv.Adapter = new DataAdapter (this, list, Assets);
 					FindViewById<ImageButton> (Resource.Id.button2).Clickable = true;
 				});
 		}
@@ -72,7 +75,7 @@ namespace vplan
 			RunOnUiThread(() => 
 				{
 					list.Clear();
-					lv.Adapter = new DataAdapter (this, list);
+					lv.Adapter = new DataAdapter (this, list, Assets);
 				});
 		}
 		public void add(Data v1) {
