@@ -42,7 +42,7 @@ namespace vplan
 		public void refresh(List<Group> v1) {
 			RunOnUiThread(() => 
 				{
-					lv.Adapter = new GroupAdapter (this, v1);
+					lv.Adapter = new GroupAdapter (this, v1, Assets);
 					pd.Dismiss();
 				});
 			if (setti.read ("group") == null)
