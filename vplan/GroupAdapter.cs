@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
+using Android.Content.Res;
+using Android.App;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
+using UntisExp;
 
 namespace vplan
 {
@@ -16,7 +15,9 @@ namespace vplan
 	{
 		Activity mContext;
 		List<Group> data = null;
-		public GroupAdapter(Activity amContext, List<Group> aData) : base(){
+		//Typeface type;
+		public GroupAdapter(Activity amContext, List<Group> aData, AssetManager asset) : base(){
+			//type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
 			mContext = amContext;
 			data = aData;
 		}
@@ -37,6 +38,7 @@ namespace vplan
 			Group dataEntry = data [position];
 			mContext.SetTheme (Resource.Drawable.btn);
 			TextView l1 = (TextView)convertView.FindViewById (Resource.Id.firstLine);
+			//l1.SetTypeface (type, TypefaceStyle.Normal);
 			TextView l2 = (TextView)convertView.FindViewById (Resource.Id.secondLine);
 			l1.Text = dataEntry.ClassName;
 			l2.Visibility = ViewStates.Invisible;

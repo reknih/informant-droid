@@ -5,6 +5,7 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using UntisExp;
 
 namespace vplan
 {
@@ -34,25 +35,25 @@ namespace vplan
 			pd.SetMessage("Klassen werden geladen");
 			pd.Show ();
 
-			fetcher = new Fetcher (this);
+			fetcher = new Fetcher (toast, refresh);
 			fetcher.getClasses();
 		}
 
 		public void refresh(List<Group> v1) {
 			RunOnUiThread(() => 
 				{
-					lv.Adapter = new GroupAdapter (this, v1);
+					lv.Adapter = new GroupAdapter (this, v1, Assets);
 					pd.Dismiss();
 				});
 			if (setti.read ("group") == null)
-				toast ("Hallo und willkommen an Board. Es ist noch alles ziemlich neu hier, also schreib uns, wenn du Probleme hast. Aber fürs erste: Hab Spaß. Dein SR.");
+				toast ("","Hallo und willkommen an Board. Es ist noch alles ziemlich neu hier, also schreib uns, wenn du Probleme hast. Aber fürs erste: Hab Spaß. Dein SR.","");
 		}
 		protected void OnListItemClick(ListView l, View v, int position, long id)
 		{
 			setti.write ("group", position + 1);
 			this.OnBackPressed ();
 		}
-		public void toast(string str) {
+		public void toast(string t, string str, string i) {
 			RunOnUiThread (() => {
 				Toast.MakeText (this, str, ToastLength.Long).Show ();
 				pd.Dismiss ();
