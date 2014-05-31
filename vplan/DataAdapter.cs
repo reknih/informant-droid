@@ -15,15 +15,15 @@ namespace vplan
 	{
 		Activity mContext;
 		List<Data> data = null;
-		Typeface type;
-		Typeface bold;
-		Typeface light;
+		//Typeface type;
+		//Typeface bold;
+		//Typeface light;
 		public DataAdapter(Activity amContext, List<Data> aData, AssetManager asset) : base(){
 			mContext = amContext;
 			data = aData;
-			type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
-			bold  = Typeface.CreateFromAsset (asset, "SourceSansPro-Bold.ttf");
-			light = Typeface.CreateFromAsset (asset, "SourceSansPro-Light.ttf");
+			//type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
+			//bold  = Typeface.CreateFromAsset (asset, "SourceSansPro-Bold.ttf");
+			//light = Typeface.CreateFromAsset (asset, "SourceSansPro-Light.ttf");
 		}
 		public override long GetItemId(int position)
 		{
@@ -42,10 +42,10 @@ namespace vplan
 			Data dataEntry = data [position];
 
 			TextView l1 = (TextView)convertView.FindViewById (Resource.Id.firstLine);
-			l1.SetTypeface (type, TypefaceStyle.Normal);
+			//l1.SetTypeface (type, TypefaceStyle.Normal);
 
 			if (dataEntry.Head == true) {
-				l1.SetTypeface (bold, TypefaceStyle.Bold);
+				//l1.SetTypeface (bold, TypefaceStyle.Bold);
 			}
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
 				if (dataEntry.Entfall == true) {
@@ -61,7 +61,7 @@ namespace vplan
 			}
 
 			TextView l2 = (TextView)convertView.FindViewById (Resource.Id.secondLine);
-			l2.SetTypeface (light, TypefaceStyle.Normal);
+			//l2.SetTypeface (light, TypefaceStyle.Normal);
 			l1.Text = dataEntry.Line1;
 			l2.Text = dataEntry.Line2;
 			return convertView;

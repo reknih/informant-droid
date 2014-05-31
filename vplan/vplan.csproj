@@ -56,7 +56,6 @@
     <Compile Include="SettingsActivity.cs" />
     <Compile Include="GroupAdapter.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="EditFont.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
