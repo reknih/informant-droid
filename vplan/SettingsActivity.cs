@@ -31,6 +31,12 @@ namespace vplan
 			} else {
 				bt.Clickable = false;
 			}
+
+			try {
+				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(255,220,0)));
+			} catch {
+			}
+
 			pd = new ProgressDialog (this);
 			pd.SetMessage("Klassen werden geladen");
 			pd.Show ();

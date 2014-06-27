@@ -44,6 +44,10 @@ namespace vplan
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivity(set);
 			};
+			try {
+				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Color.Rgb(255,220,0)));
+			} catch {
+			}
 		}
 		protected override void OnResume () {
 			base.OnResume ();
