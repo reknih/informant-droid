@@ -13,12 +13,12 @@ namespace vplan
 {
 	public class DataAdapter : BaseAdapter<Data>
 	{
-		Activity mContext;
+		Android.App.Activity mContext;
 		List<Data> data = null;
 		Typeface type;
 		Typeface bold;
 		Typeface light;
-		public DataAdapter(Activity amContext, List<Data> aData, AssetManager asset) : base(){
+		public DataAdapter(Android.App.Activity amContext, List<Data> aData, AssetManager asset) : base(){
 			mContext = amContext;
 			data = aData;
 			type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");

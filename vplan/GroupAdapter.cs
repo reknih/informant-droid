@@ -13,10 +13,10 @@ namespace vplan
 {
 	public class GroupAdapter : BaseAdapter<Group>
 	{
-		Activity mContext;
+		Android.App.Activity mContext;
 		List<Group> data = null;
 		Typeface type;
-		public GroupAdapter(Activity amContext, List<Group> aData, AssetManager asset) : base(){
+		public GroupAdapter(Android.App.Activity amContext, List<Group> aData, AssetManager asset) : base(){
 			type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
 			mContext = amContext;
 			data = aData;

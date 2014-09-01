@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+    android:theme="@style/AppTheme"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -23,6 +23,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/button1"
+            android:background="@drawable/btn"
+            android:layout_weight="1" />
+        <ImageButton
+            android:src="@drawable/ic_action_brightness_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/newsbtn"
             android:background="@drawable/btn"
             android:layout_weight="1" />
         <ImageButton

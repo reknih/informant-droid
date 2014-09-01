@@ -31,6 +31,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>x86</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -59,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Resources\drawable-hdpi\ic_action_brightness_auto.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -86,12 +88,18 @@
     <AndroidResource Include="Resources\drawable-mdpi\n_Icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\n_Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\n_Icon.png" />
+    <AndroidResource Include="Resources\values-v11\styles.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_brightness_auto.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_brightness_auto.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_brightness_auto.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\" />
     <Folder Include="Assets\" />
+    <Folder Include="Resources\values-v11\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Projects\informant-core\informant-core\UntisExport.csproj">

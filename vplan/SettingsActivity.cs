@@ -10,7 +10,7 @@ using UntisExp;
 namespace vplan
 {
 	[Activity (Label = "Einstellungen")]			
-	public class SettingsActivity : Activity
+	public class SettingsActivity : Android.App.Activity
 	{
 		private ListView lv;
 		private Fetcher fetcher;
