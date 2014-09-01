@@ -45,7 +45,7 @@ namespace vplan
 				StartActivity(set);
 			};
 			try {
-				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Color.Rgb(255,220,0)));
+				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
 			} catch {
 			}
 		}
@@ -58,6 +58,7 @@ namespace vplan
 				fetcher = new Fetcher (clear, toast, Refresh, add);
 				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule, 30);
 				list.Clear();
+				StartService(new Intent ("setup", Android.Net.Uri.Parse(VConfig.url), this, typeof(NotifyService)));
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivity(set);

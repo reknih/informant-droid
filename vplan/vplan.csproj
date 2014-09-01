@@ -57,6 +57,8 @@
     <Compile Include="SettingsActivity.cs" />
     <Compile Include="GroupAdapter.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="NotifyService.cs" />
+    <Compile Include="StartupReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -93,6 +95,11 @@
     <AndroidResource Include="Resources\drawable-mdpi\ic_action_brightness_auto.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_action_brightness_auto.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_brightness_auto.png" />
+    <AndroidResource Include="Resources\values-v11\colors.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\notifications.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\notifications.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\notifications.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\notifications.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

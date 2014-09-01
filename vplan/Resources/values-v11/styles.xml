@@ -2,5 +2,6 @@
 <resources>
   <!-- inherit from the material theme -->
   <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+
   </style>
 </resources>
