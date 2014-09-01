@@ -11,7 +11,7 @@ using UntisExp;
 namespace vplan
 {
 	[Activity (Label = "CWS Informant", MainLauncher = true)]
-	public class MainActivity : Activity
+	public class MainActivity : Android.App.Activity
 	{
 
 		private Fetcher fetcher;
@@ -37,13 +37,17 @@ namespace vplan
 			refresh.Clickable = false;
 			refresh.Click += (sender, e) => {
 				fetcher = new Fetcher(clear, toast, Refresh, add);
-				fetcher.getTimes ((int)settings.read("group"), false);
+				fetcher.getTimes ((int)settings.read("group"), UntisExp.Activity.ParseFirstSchedule, 30);
 				list.Clear();
 			};
 			options.Click += (sender, e) => {
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivity(set);
 			};
+			try {
+				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Color.Rgb(255,220,0)));
+			} catch {
+			}
 		}
 		protected override void OnResume () {
 			base.OnResume ();
@@ -52,7 +56,7 @@ namespace vplan
 			try {
 				int group = (int)settings.read ("group");
 				fetcher = new Fetcher (clear, toast, Refresh, add);
-				fetcher.getTimes (group, false);
+				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule, 30);
 				list.Clear();
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
