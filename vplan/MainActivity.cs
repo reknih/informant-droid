@@ -19,7 +19,6 @@ namespace vplan
 		private List<Data> list = new List<Data>();
 		private ProgressDialog pd;
 		private Settings settings;
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
@@ -27,47 +26,59 @@ namespace vplan
 			//Typeface.DefaultBold = Typeface.CreateFromAsset (Assets, "SourceSansPro-Bold.ttf");
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+			pd = ProgressDialog.Show (this, "", "Vertretungen werden geladen" );
 			lv = FindViewById<ListView>(Resource.Id.lv);
-			pd = new ProgressDialog (this);
-			pd.SetMessage ("Vertretungen werden geladen");
-			pd.Show ();
 			settings = new Settings (this);
 			ImageButton options = FindViewById<ImageButton> (Resource.Id.button1);
 			ImageButton refresh = FindViewById<ImageButton> (Resource.Id.button2);
+			ImageButton news = FindViewById<ImageButton> (Resource.Id.newsbtn);
 			refresh.Clickable = false;
 			refresh.Click += (sender, e) => {
 				fetcher = new Fetcher(clear, toast, Refresh, add);
-				fetcher.getTimes ((int)settings.read("group"), UntisExp.Activity.ParseFirstSchedule, 30);
+				fetcher.getTimes ((int)settings.read("group"), UntisExp.Activity.ParseFirstSchedule);
 				list.Clear();
+				pd = ProgressDialog.Show(this, "", "Vertretungen werden geladen" );
 			};
 			options.Click += (sender, e) => {
 				var set = new Intent(this, typeof(SettingsActivity));
+				StartActivity(set);
+			};
+			news.Click += (sender, e) => {
+				var set = new Intent(this, typeof(NewsActivity));
 				StartActivity(set);
 			};
 			try {
 				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
 			} catch {
 			}
-		}
-		protected override void OnResume () {
-			base.OnResume ();
-			pd.SetMessage ("Vertretungen werden geladen");
-			pd.Show ();
 			try {
 				int group = (int)settings.read ("group");
 				fetcher = new Fetcher (clear, toast, Refresh, add);
-				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule, 30);
+				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule);
 				list.Clear();
-				StartService(new Intent ("setup", Android.Net.Uri.Parse(VConfig.url), this, typeof(NotifyService)));
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivity(set);
+			}
+
+			//StartService(new Intent ("setup", Android.Net.Uri.Parse(VConfig.url), this, typeof(NotifyService)));
+		}
+		protected override void OnResume ()
+		{
+			base.OnResume ();
+			try {
+				int group = (int)settings.read ("group");
+				fetcher = new Fetcher (clear, toast, Refresh, add);
+				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule);
+				list.Clear();
+			} catch {
 			}
 		}
 		public void Refresh(List<Data> v1) {
 			RunOnUiThread(() => 
 				{
 					list.AddRange(v1);
+					pd.Dismiss();
 					try {
 						if (list.Count == 0) {
 							list.Add(new Data());
@@ -77,7 +88,6 @@ namespace vplan
 							list.RemoveAt(0);
 						}
 					} catch {}
-					pd.Dismiss();
 					lv.Adapter = new DataAdapter (this, list, Assets);
 					FindViewById<ImageButton> (Resource.Id.button2).Clickable = true;
 				});

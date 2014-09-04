@@ -26,7 +26,7 @@ namespace vplan
 			try
 			{
 				group = (int)settings.read ("group");
-			} catch (Exception e) {
+			} catch {
 				StopSelf ();
 				return;
 			}
@@ -77,10 +77,6 @@ namespace vplan
 				return;
 			var nMgr = (NotificationManager)GetSystemService (NotificationService);
 			var notification = new Notification (Resource.Drawable.notifications, notTxt);
-			try {
-			notification.Priority = NotificationPriority.Low;
-			} catch {
-			}
 			var pendingIntent = PendingIntent.GetActivity (this, 0, new Intent (this, typeof(MainActivity)), 0);
 			notification.SetLatestEventInfo (this, "CWS Informant", notTxt, pendingIntent);
 			nMgr.Notify (0, notification);
@@ -94,7 +90,7 @@ namespace vplan
 			var iv = AlarmManager.IntervalHalfDay;
 			AlarmManager alm = (AlarmManager)GetSystemService(AlarmService);
 
-			alm.SetInexactRepeating(AlarmType.Rtc, 0, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
+			alm.SetInexactRepeating(AlarmType.Rtc, iv, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
 		}
 	}
 }

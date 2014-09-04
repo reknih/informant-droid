@@ -59,6 +59,9 @@
     <Compile Include="Settings.cs" />
     <Compile Include="NotifyService.cs" />
     <Compile Include="StartupReceiver.cs" />
+    <Compile Include="NewsActivity.cs" />
+    <Compile Include="NewsAdapter.cs" />
+    <Compile Include="NewsItemActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -86,20 +89,22 @@
     <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\n_Icon.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\n_Icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\n_Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\n_Icon.png" />
     <AndroidResource Include="Resources\values-v11\styles.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_action_brightness_auto.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_action_brightness_auto.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_brightness_auto.png" />
-    <AndroidResource Include="Resources\values-v11\colors.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-mdpi\notifications.png" />
+    <AndroidResource Include="Resources\layout\News.axml" />
+    <AndroidResource Include="Resources\layout\news_row.axml" />
+    <AndroidResource Include="Resources\layout\NewsItem.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_web_site.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_action_web_site.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_web_site.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_web_site.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -113,12 +118,14 @@
       <Project>{7E2DE76A-BF93-4B36-9223-D996F1C746CD}</Project>
       <Name>UntisExport</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Projects\MonoDroid.UrlImageViewHelper\MonoDroid.UrlImageViewHelper.csproj">
+      <Project>{57444E6A-23D9-443A-BA83-040CB9561E66}</Project>
+      <Name>MonoDroid.UrlImageViewHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\SourceSansPro-Bold.ttf" />
-    <AndroidAsset Include="Assets\SourceSansPro-It.ttf" />
     <AndroidAsset Include="Assets\SourceSansPro-Light.ttf" />
-    <AndroidAsset Include="Assets\SourceSansPro-LightIt.ttf" />
     <AndroidAsset Include="Assets\SourceSansPro-Regular.ttf" />
   </ItemGroup>
 </Project>

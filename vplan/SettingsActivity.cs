@@ -34,6 +34,7 @@ namespace vplan
 
 			try {
 				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
+
 			} catch {
 			}
 
