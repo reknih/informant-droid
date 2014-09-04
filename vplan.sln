@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vplan", "vplan\vplan.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntisExport", "..\..\..\Projects\informant-core\informant-core\UntisExport.csproj", "{7E2DE76A-BF93-4B36-9223-D996F1C746CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoDroid.UrlImageViewHelper", "..\..\..\Projects\MonoDroid.UrlImageViewHelper\MonoDroid.UrlImageViewHelper.csproj", "{57444E6A-23D9-443A-BA83-040CB9561E66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57444E6A-23D9-443A-BA83-040CB9561E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57444E6A-23D9-443A-BA83-040CB9561E66}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E2DE76A-BF93-4B36-9223-D996F1C746CD}.Release|Any CPU.ActiveCfg = Release|Any CPU

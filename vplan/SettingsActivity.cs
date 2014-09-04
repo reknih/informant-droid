@@ -10,7 +10,7 @@ using UntisExp;
 namespace vplan
 {
 	[Activity (Label = "Einstellungen")]			
-	public class SettingsActivity : Activity
+	public class SettingsActivity : Android.App.Activity
 	{
 		private ListView lv;
 		private Fetcher fetcher;
@@ -31,6 +31,13 @@ namespace vplan
 			} else {
 				bt.Clickable = false;
 			}
+
+			try {
+				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
+
+			} catch {
+			}
+
 			pd = new ProgressDialog (this);
 			pd.SetMessage("Klassen werden geladen");
 			pd.Show ();

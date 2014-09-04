@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/AppTheme"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight=".02"
+        android:id="@+id/header"
+        android:layout_marginTop="3dp">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="5dp"
+            android:src="@drawable/notifications" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dip"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="50dip"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:text="Description"
+                android:textSize="24sp"
+                android:linksClickable="false" />
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView1"
+        android:layout_above="@+id/btns"
+        android:layout_below="@+id/header"
+        android:gravity="top"
+        android:layout_weight=".70">
+	    <TextView
+	        android:text="Text"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/mainText"
+	        android:inputType="none"
+	        android:textSize="14sp"
+	        android:layout_marginLeft="3dp"
+	        android:layout_marginRight="3dp" />
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:id="@+id/btns"
+        android:gravity="bottom"
+        android:layout_gravity="bottom">
+        <ImageButton
+            android:src="@drawable/ic_action_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/backbtn"
+            android:background="@drawable/btn"
+            android:layout_weight="1" />
+        <ImageButton
+            android:src="@drawable/ic_action_web_site"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/browsebtn"
+            android:background="@drawable/btn"
+            android:layout_weight="1" />
+    </LinearLayout>
+</LinearLayout>

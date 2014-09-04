@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+       <ImageButton
+            android:src="@drawable/ic_action_overflow"
+            android:title="Klassen"
+            android:id="@+id/button1" />
+        <ImageButton
+            android:src="@drawable/ic_action_brightness_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/newsbtn"
+            android:background="@drawable/btn"
+            android:layout_weight="1" />
+        <ImageButton
+            android:src="@drawable/ic_action_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/btn"
+            android:id="@+id/button2"
+            android:layout_weight="1"
+            android:hapticFeedbackEnabled="true" />
+</menu>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/AppTheme"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".70"
+        android:id="@+id/lv" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp">
+
+    </LinearLayout>
+</LinearLayout>
