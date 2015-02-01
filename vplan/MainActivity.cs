@@ -54,7 +54,7 @@ namespace vplan
 			try {
 				int group = (int)settings.read ("group");
 				fetcher = new Fetcher (clear, toast, Refresh, add);
-				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule);
+				fetcher.getTimes (group);
 				list.Clear();
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
@@ -69,7 +69,7 @@ namespace vplan
 			try {
 				int group = (int)settings.read ("group");
 				fetcher = new Fetcher (clear, toast, Refresh, add);
-				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule);
+				fetcher.getTimes (group);
 				list.Clear();
 			} catch {
 			}

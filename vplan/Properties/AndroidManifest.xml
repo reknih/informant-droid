@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="15" android:versionName="2.0.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="17" android:versionName="2.1.0">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
 	<application android:label="CWS Informant" android:theme="@android:style/Theme.Holo.Light.DarkActionBar" android:icon="@drawable/icon">
 		<service android:name=".NotifyService">
