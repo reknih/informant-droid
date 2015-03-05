@@ -48,6 +48,12 @@ namespace vplan
 				StartActivity(set);
 			};
 			try {
+				int not = (int)settings.read("notifies");
+			} catch {
+				StartService (new Intent ("setup", Android.Net.Uri.Parse (VConfig.url), this, typeof(NotifyService)));
+				settings.write ("notifies", 1);
+			}
+			try {
 				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
 			} catch {
 			}
@@ -61,7 +67,6 @@ namespace vplan
 				StartActivity(set);
 			}
 
-			//StartService(new Intent ("setup", Android.Net.Uri.Parse(VConfig.url), this, typeof(NotifyService)));
 		}
 		protected override void OnResume ()
 		{
@@ -107,7 +112,7 @@ namespace vplan
 		public void toast(string t, string str, string i) {
 			RunOnUiThread (() => {
 				pd.Dismiss ();
-				Toast.MakeText (this, str, ToastLength.Long).Show ();
+				//Toast.MakeText (this, str, ToastLength.Long).Show ();
 			});
 		}
 
