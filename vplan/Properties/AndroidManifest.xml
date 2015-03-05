@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="17" android:versionName="2.1.0">
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="19" android:versionName="2.2.1">
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="21" />
 	<application android:label="CWS Informant" android:theme="@android:style/Theme.Holo.Light.DarkActionBar" android:icon="@drawable/icon">
-		<service android:name=".NotifyService">
+		<service android:name="vplan.NotifyService">
 		</service>
-		<receiver android:name=".StartupReceiver">
+		<receiver android:name="vplan.StartupReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED">
 				</action>

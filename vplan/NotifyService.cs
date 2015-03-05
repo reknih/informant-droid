@@ -78,7 +78,15 @@ namespace vplan
 			var nMgr = (NotificationManager)GetSystemService (NotificationService);
 			var notification = new Notification (Resource.Drawable.notifications, notTxt);
 			var pendingIntent = PendingIntent.GetActivity (this, 0, new Intent (this, typeof(MainActivity)), 0);
-			notification.SetLatestEventInfo (this, "CWS Informant", notTxt, pendingIntent);
+			try {
+				Notification.Builder builder = new Notification.Builder (this)
+					.SetContentTitle ("CWS Informant")
+					.SetContentText (notTxt)
+					.SetSmallIcon (Resource.Drawable.notifications);
+				notification = builder.Build();
+			} catch {
+				notification.SetLatestEventInfo (this, "CWS Informant", notTxt, pendingIntent);
+			}
 			nMgr.Notify (0, notification);
 		}
 		protected bool IsAlarmSet ()
