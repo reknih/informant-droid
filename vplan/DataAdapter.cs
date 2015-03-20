@@ -39,6 +39,7 @@ namespace vplan
 			if (convertView==null) {
 				convertView = mContext.LayoutInflater.Inflate(Resource.Layout.list_row, null);
 			}
+			try {
 			Data dataEntry = data [position];
 
 			TextView l1 = (TextView)convertView.FindViewById (Resource.Id.firstLine);
@@ -64,6 +65,7 @@ namespace vplan
 			l2.SetTypeface (light, TypefaceStyle.Normal);
 			l1.Text = dataEntry.Line1;
 			l2.Text = dataEntry.Line2;
+			} catch {}
 			return convertView;
 		}
 	}

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V4.App;
+using Android.Support.V7.App;
+
 using UntisExp;
 
 namespace vplan
@@ -73,21 +76,18 @@ namespace vplan
 		}
 		protected void notify(string notTxt)
 		{
-			if (IsAlarmSet())
-				return;
 			var nMgr = (NotificationManager)GetSystemService (NotificationService);
 			var notification = new Notification (Resource.Drawable.notifications, notTxt);
 			var pendingIntent = PendingIntent.GetActivity (this, 0, new Intent (this, typeof(MainActivity)), 0);
-			try {
-				Notification.Builder builder = new Notification.Builder (this)
-					.SetContentTitle ("CWS Informant")
-					.SetContentText (notTxt)
-					.SetSmallIcon (Resource.Drawable.notifications);
-				notification = builder.Build();
-			} catch {
-				notification.SetLatestEventInfo (this, "CWS Informant", notTxt, pendingIntent);
-			}
+			NotificationCompat.Builder builder = new NotificationCompat.Builder (this)
+				.SetContentTitle ("CWS Informant")
+				.SetContentText (notTxt)
+				.SetSmallIcon (Resource.Drawable.notifications)
+				.SetContentIntent(pendingIntent);
+			notification = builder.Build();
 			nMgr.Notify (0, notification);
+			if (IsAlarmSet())
+				return;
 		}
 		protected bool IsAlarmSet ()
 		{
@@ -95,10 +95,11 @@ namespace vplan
 		}
 		protected void registerAlarm ()
 		{
-			var iv = AlarmManager.IntervalHalfDay;
+			Random rnd = new Random ();
+			var iv = 120000;
 			AlarmManager alm = (AlarmManager)GetSystemService(AlarmService);
 
-			alm.SetInexactRepeating(AlarmType.Rtc, iv, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
+			alm.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, iv, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
 		}
 	}
 }

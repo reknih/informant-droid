@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:local="http://schemas.android.com/apk/res-auto"
     android:theme="@style/AppTheme"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:minWidth="25px"
-    android:minHeight="25px">
-    <ListView
+    android:layout_height="fill_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+    <FrameLayout
+        android:layout_below="@id/toolbar"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".70"
-        android:id="@+id/lv" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp">
-        <ImageButton
-            android:src="@drawable/ic_action_overflow"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ListView
+            android:scrollbars="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lv" />
+        <com.refractored.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:elevation="6dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/button1"
-            android:background="@drawable/btn"
-            android:layout_weight="1" />
-        <ImageButton
-            android:src="@drawable/ic_action_brightness_auto"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/newsbtn"
-            android:background="@drawable/btn"
-            android:layout_weight="1" />
-        <ImageButton
-            android:src="@drawable/ic_action_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/btn"
-            android:id="@+id/button2"
-            android:layout_weight="1"
-            android:hapticFeedbackEnabled="true" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_announcement_white_24dp"
+            local:fab_colorNormal="@color/accent1"
+            local:fab_colorPressed="@color/accentPressed1"
+            local:fab_colorRipple="@color/ripple1" />
+    </FrameLayout>
+</RelativeLayout>
