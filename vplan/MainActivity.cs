@@ -46,10 +46,8 @@ namespace vplan
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.IceCreamSandwich)
 				fab.AttachToListView (lv);
 
-			settings = new Settings (this); 
-			try {
-				int not = (int)settings.read("notifies");
-			} catch {
+			settings = new Settings (this);
+			if (settings.read("notifies") == null) {
 				StartService (new Intent ("setup", Android.Net.Uri.Parse (VConfig.url), this, typeof(NotifyService)));
 				settings.write ("notifies", 1);
 			}
@@ -63,7 +61,8 @@ namespace vplan
 				list.Clear();
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
-				StartActivity(set);
+				StartActivityForResult(set, 0);
+
 			}
 
 		}
@@ -93,6 +92,9 @@ namespace vplan
 				break;
 			}
 			return true;
+		}
+		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data) {
+			base.OnActivityResult(requestCode, resultCode, data);
 		}
 		protected override void OnResume ()
 		{
@@ -124,6 +126,7 @@ namespace vplan
 					} catch {}
 					fetching = false;
 					lv.Adapter = new DataAdapter (this, list, Assets);
+					lv.Invalidate();
 					//FindViewById<ImageButton> (Resource.Id.button2).Clickable = true;
 				});
 		}
@@ -131,6 +134,7 @@ namespace vplan
 			RunOnUiThread(() => 
 				{
 					list.Clear();
+
 					lv.Adapter = new DataAdapter (this, list, Assets);
 				});
 		}

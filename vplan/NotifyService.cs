@@ -52,8 +52,15 @@ namespace vplan
 					settings.write ("firstStart", 0);
 				}
 				StopSelf();
-			} else {
+			} else if (settings.read ("group") != null) {
 				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule, 30);
+			} else {
+				if (IsAlarmSet ()) {
+					return StartCommandResult.NotSticky;
+				} else {
+					registerAlarm ();
+					return StartCommandResult.NotSticky;
+				}
 			}
 			return StartCommandResult.NotSticky;
 		}
@@ -63,7 +70,7 @@ namespace vplan
 				string notTxt;
 				if (l.Count == 1) {
 					notTxt = "Es gibt eine neue Vertretung";
-				} else {
+				} else  {
 					notTxt = "Es gibt " + l.Count + " neue Vertretungen";
 				}
 				settings.write ("lastState", l.Count);
@@ -86,20 +93,29 @@ namespace vplan
 				.SetContentIntent(pendingIntent);
 			notification = builder.Build();
 			nMgr.Notify (0, notification);
-			if (IsAlarmSet())
+			if (IsAlarmSet ()) {
 				return;
+			} else {
+				registerAlarm ();
+			}
 		}
 		protected bool IsAlarmSet ()
 		{
-			return PendingIntent.GetBroadcast (this, 0, new Intent (this, typeof(MainActivity)), PendingIntentFlags.NoCreate) != null;
+			return ((PendingIntent.GetBroadcast (this, 0, new Intent (this, typeof(NotifyService)), PendingIntentFlags.NoCreate)) != null);
 		}
 		protected void registerAlarm ()
 		{
+			# if DEBUG
+			long iv = (AlarmManager.IntervalFifteenMinutes / 15) * 2;
+			# else
 			Random rnd = new Random ();
-			var iv = 120000;
+			var iv = AlarmManager.IntervalDay / 4;
+			iv += rnd.Next(1200000);
+			# endif
+				
 			AlarmManager alm = (AlarmManager)GetSystemService(AlarmService);
 
-			alm.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, iv, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
+			alm.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, iv, iv, PendingIntent.GetBroadcast(this, 0, new Intent (this, typeof(NotifyService)), 0));
 		}
 	}
 }

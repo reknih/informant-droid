@@ -68,7 +68,6 @@ namespace vplan
 				Intent browserIntent = new Intent (Intent.ActionView, Android.Net.Uri.Parse (url));
 				StartActivity (browserIntent);
 				return true;
-				break;
 			case Android.Resource.Id.Home:
 				Finish();
 				return true;

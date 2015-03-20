@@ -79,7 +79,10 @@ namespace vplan
 		protected void OnListItemClick(ListView l, View v, int position, long id)
 		{
 			setti.write ("group", position + 1);
-			this.OnBackPressed ();
+			var set = new Intent (this, typeof(MainActivity));
+			Intent.PutExtra ("group", position + 1);
+			SetResult (Result.Ok);
+			StartActivity (set);
 		}
 		public void toast(string t, string str, string i) {
 			RunOnUiThread (() => {
