@@ -23,7 +23,7 @@ namespace vplan
 		private ListView lv;
 		private List<Data> list = new List<Data>();
 		private ProgressDialog pd;
-		private Settings settings;
+		private ISettings settings;
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
