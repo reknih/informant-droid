@@ -1,7 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="19" android:versionName="2.2.1">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="21" />
-	<application android:label="CWS Informant" android:theme="@android:style/Theme.Holo.Light.DarkActionBar" android:icon="@drawable/icon">
+	<application android:label="CWS Informant" android:theme="@style/AppTheme" android:icon="@drawable/icon">
+	    <!--<activity android:name="vplan.MainActivity" >
+	        <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+    	</activity>
+    	<activity android:name="vplan.NewsActivity"
+    		android:parentActivityName="vplan.MainActivity"
+    		android:label="Nachrichten" >
+    		<meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="vplan.MainActivity" />
+    	</activity>
+    	<activity android:name="vplan.NewsItemActivity"
+    		android:parentActivityName="vplan.NewsActivity"
+    		android:label="Nachricht-Details" >
+    		<meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="vplan.NewsActivity" />
+    	</activity>
+    	<activity android:name="vplan.SettingsActivity"
+    		android:parentActivityName="vplan.MainActivity"
+    		android:label="Klassen" >
+    		<meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="vplan.MainActivity" />
+    	</activity>-->
 		<service android:name="vplan.NotifyService">
 		</service>
 		<receiver android:name="vplan.StartupReceiver">

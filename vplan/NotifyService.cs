@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Support.V4.App;
+using Android.Support.V7.App;
+
 using UntisExp;
 
 namespace vplan
@@ -49,8 +52,15 @@ namespace vplan
 					settings.write ("firstStart", 0);
 				}
 				StopSelf();
-			} else {
+			} else if (settings.read ("group") != null) {
 				fetcher.getTimes (group, UntisExp.Activity.ParseFirstSchedule, 30);
+			} else {
+				if (IsAlarmSet ()) {
+					return StartCommandResult.NotSticky;
+				} else {
+					registerAlarm ();
+					return StartCommandResult.NotSticky;
+				}
 			}
 			return StartCommandResult.NotSticky;
 		}
@@ -60,7 +70,7 @@ namespace vplan
 				string notTxt;
 				if (l.Count == 1) {
 					notTxt = "Es gibt eine neue Vertretung";
-				} else {
+				} else  {
 					notTxt = "Es gibt " + l.Count + " neue Vertretungen";
 				}
 				settings.write ("lastState", l.Count);
@@ -73,32 +83,39 @@ namespace vplan
 		}
 		protected void notify(string notTxt)
 		{
-			if (IsAlarmSet())
-				return;
 			var nMgr = (NotificationManager)GetSystemService (NotificationService);
 			var notification = new Notification (Resource.Drawable.notifications, notTxt);
 			var pendingIntent = PendingIntent.GetActivity (this, 0, new Intent (this, typeof(MainActivity)), 0);
-			try {
-				Notification.Builder builder = new Notification.Builder (this)
-					.SetContentTitle ("CWS Informant")
-					.SetContentText (notTxt)
-					.SetSmallIcon (Resource.Drawable.notifications);
-				notification = builder.Build();
-			} catch {
-				notification.SetLatestEventInfo (this, "CWS Informant", notTxt, pendingIntent);
-			}
+			NotificationCompat.Builder builder = new NotificationCompat.Builder (this)
+				.SetContentTitle ("CWS Informant")
+				.SetContentText (notTxt)
+				.SetSmallIcon (Resource.Drawable.notifications)
+				.SetContentIntent(pendingIntent);
+			notification = builder.Build();
 			nMgr.Notify (0, notification);
+			if (IsAlarmSet ()) {
+				return;
+			} else {
+				registerAlarm ();
+			}
 		}
 		protected bool IsAlarmSet ()
 		{
-			return PendingIntent.GetBroadcast (this, 0, new Intent (this, typeof(MainActivity)), PendingIntentFlags.NoCreate) != null;
+			return ((PendingIntent.GetBroadcast (this, 0, new Intent (this, typeof(NotifyService)), PendingIntentFlags.NoCreate)) != null);
 		}
 		protected void registerAlarm ()
 		{
-			var iv = AlarmManager.IntervalHalfDay;
+			# if DEBUG
+			long iv = (AlarmManager.IntervalFifteenMinutes / 15) * 2;
+			# else
+			Random rnd = new Random ();
+			var iv = AlarmManager.IntervalDay / 4;
+			iv += rnd.Next(1200000);
+			# endif
+				
 			AlarmManager alm = (AlarmManager)GetSystemService(AlarmService);
 
-			alm.SetInexactRepeating(AlarmType.Rtc, iv, iv, PendingIntent.GetService(this, 0, new Intent (this, typeof(NotifyService)), 0));
+			alm.SetInexactRepeating(AlarmType.ElapsedRealtimeWakeup, iv, iv, PendingIntent.GetBroadcast(this, 0, new Intent (this, typeof(NotifyService)), 0));
 		}
 	}
 }

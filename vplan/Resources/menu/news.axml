@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:local="http://schemas.android.com/apk/res-auto">
+	<item android:id="@+id/web"
+	android:icon="@drawable/ic_public_white_24dp"
+	local:showAsAction="always"
+	android:title="Im Web" />
+</menu>
