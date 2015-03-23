@@ -16,9 +16,8 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>vplan</AssemblyName>
-    <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,11 +29,11 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>x86</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <DefineConstants>__MOBILE__;__ANDROID__;</DefineConstants>
@@ -42,12 +41,26 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.FloatingActionButton">
+      <HintPath>..\packages\Refractored.FloatingActionButton.1.0.20\lib\MonoAndroid10\Refractored.FloatingActionButton.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -65,35 +78,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
-    <None Include="Resources\drawable-hdpi\ic_action_brightness_auto.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\layout\list_row.axml" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_action_overflow.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_action_overflow.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_overflow.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_overflow.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_action_refresh.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_action_refresh.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_refresh.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_refresh.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_action_back.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_action_back.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_back.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_back.png" />
     <AndroidResource Include="Resources\drawable\btn.xml" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\values-v11\styles.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_action_brightness_auto.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_brightness_auto.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_brightness_auto.png" />
     <AndroidResource Include="Resources\drawable-hdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\notifications.png" />
@@ -101,17 +98,38 @@
     <AndroidResource Include="Resources\layout\News.axml" />
     <AndroidResource Include="Resources\layout\news_row.axml" />
     <AndroidResource Include="Resources\layout\NewsItem.axml" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_action_web_site.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_action_web_site.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_action_web_site.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_web_site.png" />
+    <AndroidResource Include="Resources\values-v21\styles.xml" />
+    <AndroidResource Include="Resources\layout\toolbar.axml" />
+    <AndroidResource Include="Resources\menu\home.axml" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_announcement_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_cached_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_public_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_announcement_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_cached_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_public_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_announcement_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_cached_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_public_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_announcement_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_cached_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_public_white_24dp.png" />
+    <AndroidResource Include="Resources\menu\news.axml" />
+    <AndroidResource Include="Resources\drawable\fab.xml" />
+    <AndroidResource Include="Resources\drawable\ripple.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
+    <AndroidResource Include="Resources\menu\groups.axml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_home_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_home_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_home_white_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\" />
     <Folder Include="Assets\" />
-    <Folder Include="Resources\values-v11\" />
+    <Folder Include="Resources\values-v21\" />
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Projects\informant-core\informant-core\UntisExport.csproj">

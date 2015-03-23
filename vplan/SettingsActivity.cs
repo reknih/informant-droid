@@ -5,12 +5,18 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Android.Content;
+
+using Android.Support.V7;
+using Android.Support.V7.App;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+
 using UntisExp;
 
 namespace vplan
 {
-	[Activity (Label = "Einstellungen")]			
-	public class SettingsActivity : Android.App.Activity
+	[Activity (Label = "Einstellungen", ParentActivity = typeof(MainActivity))]			
+	public class SettingsActivity : ActionBarActivity
 	{
 		private ListView lv;
 		private Fetcher fetcher;
@@ -21,22 +27,16 @@ namespace vplan
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Settings);
-			lv = FindViewById<ListView>(Resource.Id.lv);
-			ImageButton bt = FindViewById<ImageButton>(Resource.Id.button1);
 			setti = new Settings (this);
+			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
+			//Toolbar will now take on default actionbar characteristics
+			SetSupportActionBar (toolbar);
+			SupportActionBar.Title = "Klasse / Kurs";
 			if (setti.read ("group") != null) {
-				bt.Click += (sender, e) => {
-					this.OnBackPressed ();
-				};
-			} else {
-				bt.Clickable = false;
+				SupportActionBar.SetHomeButtonEnabled (true);
+				SupportActionBar.SetDefaultDisplayHomeAsUpEnabled (true);
 			}
-
-			try {
-				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
-
-			} catch {
-			}
+			lv = FindViewById<ListView>(Resource.Id.lv);
 
 			pd = new ProgressDialog (this);
 			pd.SetMessage("Klassen werden geladen");
@@ -45,20 +45,44 @@ namespace vplan
 			fetcher = new Fetcher (toast, refresh);
 			fetcher.getClasses();
 		}
+		public override bool OnCreateOptionsMenu (IMenu menu)
+		{
+			if (setti.read ("group") != null) {
+				MenuInflater.Inflate (Resource.Menu.groups, menu);
+			}
+			return base.OnCreateOptionsMenu (menu);
+		}
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+			case Resource.Id.buttonBack:
+				if (setti.read ("group") != null) {
+					var set = new Intent (this, typeof(MainActivity));
+					StartActivity (set);
+				}
+				return true;
 
+			default:
+				return base.OnOptionsItemSelected(item);
+			}
+		}
 		public void refresh(List<Group> v1) {
 			RunOnUiThread(() => 
 				{
 					lv.Adapter = new GroupAdapter (this, v1, Assets);
 					pd.Dismiss();
 				});
-			if (setti.read ("group") == null)
-				toast ("","Hallo und willkommen an Board. Es ist noch alles ziemlich neu hier, also schreib uns, wenn du Probleme hast. Aber fürs erste: Hab Spaß. Dein SR.","");
+			//
+
 		}
 		protected void OnListItemClick(ListView l, View v, int position, long id)
 		{
 			setti.write ("group", position + 1);
-			this.OnBackPressed ();
+			var set = new Intent (this, typeof(MainActivity));
+			Intent.PutExtra ("group", position + 1);
+			SetResult (Result.Ok);
+			StartActivity (set);
 		}
 		public void toast(string t, string str, string i) {
 			RunOnUiThread (() => {

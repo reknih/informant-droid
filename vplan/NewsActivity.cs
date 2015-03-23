@@ -11,12 +11,16 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using Android.Support.V7;
+using Android.Support.V7.App;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
+
 using UntisExp;
 
 namespace vplan
 {
 	[Activity (Label = "Nachrichten-Liste")]			
-	public class NewsActivity : Android.App.Activity
+	public class NewsActivity : ActionBarActivity
 	{
 		protected Fetcher fetcher;
 		protected Press p = new Press();
@@ -29,6 +33,12 @@ namespace vplan
 			base.OnCreate (bundle);
 			settings = new Settings (this);
 			SetContentView (Resource.Layout.News);
+			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
+			//Toolbar will now take on default actionbar characteristics
+			SetSupportActionBar (toolbar);
+			SupportActionBar.Title = "Nachrichten";
+			SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+			SupportActionBar.SetHomeButtonEnabled (true);
 			lv = FindViewById<ListView>(Resource.Id.lv);
 			lv.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
 				var t = globNews.ElementAt(e.Position);
@@ -36,22 +46,26 @@ namespace vplan
 				var set = new Intent(this, typeof(NewsItemActivity));
 				StartActivity(set);
 			};
-			ImageButton bt = FindViewById<ImageButton>(Resource.Id.backbtn);
-			bt.Click += (sender, e) => {
-				this.OnBackPressed ();
-			};
 			try {
 				groupn = (int)settings.read ("group");
 			} catch {
 				groupn = 7;
 			}
-			try {
-				ActionBar.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Rgb(0,31,63)));
-			} catch {
-			}
 			getFreshNews ();
 
 			// Create your application here
+		}
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+			case Android.Resource.Id.Home:
+				Finish();
+				return true;
+
+			default:
+				return base.OnOptionsItemSelected(item);
+			}
 		}
 		public void refreshList(News nn)
 		{
