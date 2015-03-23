@@ -33,7 +33,7 @@
     <AndroidSupportedAbis>x86</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <DefineConstants>__MOBILE__;__ANDROID__;</DefineConstants>
@@ -42,6 +42,7 @@
     <ConsolePause>false</ConsolePause>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
