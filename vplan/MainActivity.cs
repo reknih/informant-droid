@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using Android.App;
 using Android.Content;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
 using Android.OS;
-using UntisExp;
-using com.refractored.fab;
-using Android.Support.V7;
+
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+
+using UntisExp;
+using UntisExp.Interfaces;
+using UntisExp.Containers;
+
+using com.refractored.fab;
 
 namespace vplan
 {
@@ -18,12 +21,12 @@ namespace vplan
 	public class MainActivity : ActionBarActivity
 	{
 
-		private Fetcher fetcher;
-		private bool fetching;
-		private ListView lv;
-		private List<Data> list = new List<Data>();
-		private ProgressDialog pd;
-		private ISettings settings;
+		private Fetcher _fetcher;
+		private bool _fetching;
+		private ListView _lv;
+		private readonly List<Data> _list = new List<Data>();
+		private ProgressDialog _pd;
+		private ISettings _settings;
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
@@ -31,34 +34,46 @@ namespace vplan
 			//Typeface.DefaultBold = Typeface.CreateFromAsset (Assets, "SourceSansPro-Bold.ttf");
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
+            _fetcher = new Fetcher();
+		    _fetcher.RaiseErrorMessage += (sender, args) =>
+		    {
+                Toast(args.MessageBody);
+		    };
+            _fetcher.RaiseReadyToClearView += (sender, args) =>
+            {
+                Clear();
+            };
+            _fetcher.RaiseRetreivedScheduleItems += (sender, args) =>
+            {
+                Refresh(args.Schedule);
+            };
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 			//Toolbar will now take on default actionbar characteristics
 			SetSupportActionBar (toolbar);
 			SupportActionBar.Title = "CWS Informant";
-			pd = ProgressDialog.Show (this, "", "Vertretungen werden geladen" );
-			lv = FindViewById<ListView>(Resource.Id.lv);
+			_pd = ProgressDialog.Show (this, "", "Vertretungen werden geladen" );
+			_lv = FindViewById<ListView>(Resource.Id.lv);
 			var fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
 			fab.Click += (sender, e) => {
 				var set1 = new Intent(this, typeof(NewsActivity));
 				StartActivity(set1);
 			};
 
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.IceCreamSandwich)
-				fab.AttachToListView (lv);
 
-			settings = new Settings (this);
-			if (settings.read("notifies") == null) {
-				StartService (new Intent ("setup", Android.Net.Uri.Parse (VConfig.url), this, typeof(NotifyService)));
-				settings.write ("notifies", 1);
+			fab.AttachToListView (_lv);
+
+			_settings = new Settings (this);
+			if (_settings.Read("notifies") == null) {
+				StartService (new Intent ("setup", Android.Net.Uri.Parse (VConfig.Url), this, typeof(NotifyService)));
+				_settings.Write ("notifies", 1);
 			}
 			try {
-				int group = (int)settings.read ("group");
-				fetcher = new Fetcher (clear, toast, Refresh, add);
-				if (!fetching) {
-					fetcher.getTimes (group);
-					fetching = true;
+				int group = (int)_settings.Read ("group");
+				if (!_fetching) {
+					_fetcher.GetTimes (group);
+					_fetching = true;
 				}
-				list.Clear();
+				_list.Clear();
 			} catch {
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivityForResult(set, 0);
@@ -79,20 +94,18 @@ namespace vplan
 				StartActivity(set);
 				break;
 			case Resource.Id.button2:
-				fetcher = new Fetcher(clear, toast, Refresh, add);
-				if (!fetching) {
-					fetcher.getTimes ((int)settings.read("group"), UntisExp.Activity.ParseFirstSchedule);
-					fetching = true;
-					list.Clear();
-					pd = ProgressDialog.Show(this, "", "Vertretungen werden geladen" );
+				if (!_fetching) {
+					_fetcher.GetTimes ((int)_settings.Read("group"));
+					_fetching = true;
+					_list.Clear();
+					_pd = ProgressDialog.Show(this, "", "Vertretungen werden geladen" );
 				}
 
-				break;
-			default:
 				break;
 			}
 			return true;
 		}
+	    // ReSharper disable once RedundantOverridenMember
 		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data) {
 			base.OnActivityResult(requestCode, resultCode, data);
 		}
@@ -100,53 +113,57 @@ namespace vplan
 		{
 			base.OnResume ();
 			try {
-				int group = (int)settings.read ("group");
-				fetcher = new Fetcher (clear, toast, Refresh, add);
-				if (!fetching) {
-					fetcher.getTimes (group);
-					fetching = true;
+				int group = (int)_settings.Read("group");
+				if (!_fetching) {
+					_fetcher.GetTimes (group);
+					_fetching = true;
 				}
-				list.Clear();
-			} catch {
+				_list.Clear();
+			}
+			catch
+			{
+			    // ignored
 			}
 		}
-		public void Refresh(List<Data> v1) {
+
+	    private void Refresh(List<Data> v1) {
 			RunOnUiThread(() => 
 				{
-					list.AddRange(v1);
-					pd.Dismiss();
+					_list.AddRange(v1);
+					_pd.Dismiss();
 					try {
-						if (list.Count == 0) {
-							list.Add(new Data());
-						} else if (v1[0].Line1 == list[0].Line1 && list[0].Line1 == "Keine Vertretungen."){
+						if (_list.Count == 0) {
+							_list.Add(new Data());
+						} else if (v1[0].Line1 == _list[0].Line1 && _list[0].Line1 == "Keine Vertretungen."){
 							return;
-						} else if (list[0].Line1 == "Keine Vertretungen." && v1.Count > 0) {
-							list.RemoveAt(0);
+						} else if (_list[0].Line1 == "Keine Vertretungen." && v1.Count > 0) {
+							_list.RemoveAt(0);
 						}
-					} catch {}
-					fetching = false;
-					lv.Adapter = new DataAdapter (this, list, Assets);
-					lv.Invalidate();
+					}
+					catch
+					{
+					    // ignored
+					}
+				    _fetching = false;
+					_lv.Adapter = new DataAdapter (this, _list, Assets);
+					_lv.Invalidate();
 					//FindViewById<ImageButton> (Resource.Id.button2).Clickable = true;
 				});
 		}
-		public void clear() {
+
+	    private void Clear() {
 			RunOnUiThread(() => 
 				{
-					list.Clear();
+					_list.Clear();
 
-					lv.Adapter = new DataAdapter (this, list, Assets);
+					_lv.Adapter = new DataAdapter (this, _list, Assets);
 				});
 		}
-		public void add(Data v1) {
-			var l = new List<Data>();
-			l.Add(v1);
-			Refresh(l);
-		}
-		public void toast(string t, string str, string i) {
+
+	    private void Toast(string str) {
 			RunOnUiThread (() => {
-				pd.Dismiss ();
-				//Toast.MakeText (this, str, ToastLength.Long).Show ();
+				_pd.Dismiss ();
+				Android.Widget.Toast.MakeText(this, str, ToastLength.Long).Show ();
 			});
 		}
 

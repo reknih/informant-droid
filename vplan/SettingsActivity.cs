@@ -1,53 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Android.Content;
 
-using Android.Support.V7;
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 using UntisExp;
+using UntisExp.Containers;
 
 namespace vplan
 {
 	[Activity (Label = "Einstellungen", ParentActivity = typeof(MainActivity))]			
 	public class SettingsActivity : ActionBarActivity
 	{
-		private ListView lv;
-		private Fetcher fetcher;
-		private ProgressDialog pd;
-		private Settings setti;
+		private ListView _lv;
+		private Fetcher _fetcher;
+		private ProgressDialog _pd;
+		private Settings _setti;
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
 			SetContentView (Resource.Layout.Settings);
-			setti = new Settings (this);
+			_setti = new Settings (this);
 			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
 			//Toolbar will now take on default actionbar characteristics
 			SetSupportActionBar (toolbar);
 			SupportActionBar.Title = "Klasse / Kurs";
-			if (setti.read ("group") != null) {
+			if (_setti.Read ("group") != null) {
 				SupportActionBar.SetHomeButtonEnabled (true);
 				SupportActionBar.SetDefaultDisplayHomeAsUpEnabled (true);
 			}
-			lv = FindViewById<ListView>(Resource.Id.lv);
+			_lv = FindViewById<ListView>(Resource.Id.lv);
 
-			pd = new ProgressDialog (this);
-			pd.SetMessage("Klassen werden geladen");
-			pd.Show ();
+			_pd = new ProgressDialog (this);
+			_pd.SetMessage("Klassen werden geladen");
+			_pd.Show ();
 
-			fetcher = new Fetcher (toast, refresh);
-			fetcher.getClasses();
+			_fetcher = new Fetcher ();
+		    _fetcher.RaiseErrorMessage += (sender, args) =>
+		    {
+		        Toast(args.MessageBody);
+		    };
+		    _fetcher.RaiseRetreivedGroupItems += (sender, args) =>
+		    {
+                Refresh(args.Groups);
+		    };
+			_fetcher.GetClasses();
 		}
 		public override bool OnCreateOptionsMenu (IMenu menu)
 		{
-			if (setti.read ("group") != null) {
+			if (_setti.Read ("group") != null) {
 				MenuInflater.Inflate (Resource.Menu.groups, menu);
 			}
 			return base.OnCreateOptionsMenu (menu);
@@ -57,7 +63,7 @@ namespace vplan
 			switch (item.ItemId)
 			{
 			case Resource.Id.buttonBack:
-				if (setti.read ("group") != null) {
+				if (_setti.Read ("group") != null) {
 					var set = new Intent (this, typeof(MainActivity));
 					StartActivity (set);
 				}
@@ -67,27 +73,29 @@ namespace vplan
 				return base.OnOptionsItemSelected(item);
 			}
 		}
-		public void refresh(List<Group> v1) {
+
+	    private void Refresh(List<Group> v1) {
 			RunOnUiThread(() => 
 				{
-					lv.Adapter = new GroupAdapter (this, v1, Assets);
-					pd.Dismiss();
+					_lv.Adapter = new GroupAdapter (this, v1, Assets);
+					_pd.Dismiss();
 				});
-			//
-
 		}
+
+	    // ReSharper disable once UnusedMember.Global
 		protected void OnListItemClick(ListView l, View v, int position, long id)
 		{
-			setti.write ("group", position + 1);
+			_setti.Write ("group", position + 1);
 			var set = new Intent (this, typeof(MainActivity));
 			Intent.PutExtra ("group", position + 1);
 			SetResult (Result.Ok);
 			StartActivity (set);
 		}
-		public void toast(string t, string str, string i) {
+
+	    private void Toast(string str) {
 			RunOnUiThread (() => {
-				Toast.MakeText (this, str, ToastLength.Long).Show ();
-				pd.Dismiss ();
+				Android.Widget.Toast.MakeText (this, str, ToastLength.Long).Show ();
+				_pd.Dismiss ();
 			});
 		}
 

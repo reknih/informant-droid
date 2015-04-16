@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -49,17 +49,17 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\packages\Xamarin.Android.Support.v4.21.0.3.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
-      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.21.0.3.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
-    </Reference>
-    <Reference Include="Refractored.FloatingActionButton">
+    <Reference Include="Refractored.FloatingActionButton, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Refractored.FloatingActionButton.1.0.20\lib\MonoAndroid10\Refractored.FloatingActionButton.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.0.0.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.RecyclerView">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.RecyclerView.22.0.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.RecyclerView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,19 +124,13 @@
     <AndroidResource Include="Resources\drawable-hdpi\ic_home_white_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Assets\" />
-    <Folder Include="Resources\values-v21\" />
-    <Folder Include="Resources\menu\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Projects\informant-core\informant-core\UntisExport.csproj">
+    <ProjectReference Include="..\..\UntisExp\informant-core\UntisExport.csproj">
       <Project>{7E2DE76A-BF93-4B36-9223-D996F1C746CD}</Project>
       <Name>UntisExport</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Projects\MonoDroid.UrlImageViewHelper\MonoDroid.UrlImageViewHelper.csproj">
+    <ProjectReference Include="..\..\MonoDroid.UrlImageViewHelper\MonoDroid.UrlImageViewHelper.csproj">
       <Project>{57444E6A-23D9-443A-BA83-040CB9561E66}</Project>
       <Name>MonoDroid.UrlImageViewHelper</Name>
     </ProjectReference>

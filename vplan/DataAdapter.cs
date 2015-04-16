@@ -1,72 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Android.OS;
 using Android.Content.Res;
-using Android.App;
 using Android.Views;
 using Android.Widget;
 using Android.Graphics;
-using UntisExp;
+using UntisExp.Containers;
 
 namespace vplan
 {
 	public class DataAdapter : BaseAdapter<Data>
 	{
-		Android.App.Activity mContext;
-		List<Data> data = null;
-		Typeface type;
-		Typeface bold;
-		Typeface light;
-		public DataAdapter(Android.App.Activity amContext, List<Data> aData, AssetManager asset) : base(){
-			mContext = amContext;
-			data = aData;
-			type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
-			bold  = Typeface.CreateFromAsset (asset, "SourceSansPro-Bold.ttf");
-			light = Typeface.CreateFromAsset (asset, "SourceSansPro-Light.ttf");
+	    readonly Android.App.Activity _mContext;
+	    List<Data> _data;
+	    readonly Typeface _type;
+	    readonly Typeface _bold;
+	    readonly Typeface _light;
+		public DataAdapter(Android.App.Activity amContext, List<Data> aData, AssetManager asset)
+		{
+			_mContext = amContext;
+			_data = aData;
+			_type  = Typeface.CreateFromAsset (asset, "SourceSansPro-Regular.ttf");
+			_bold  = Typeface.CreateFromAsset (asset, "SourceSansPro-Bold.ttf");
+			_light = Typeface.CreateFromAsset (asset, "SourceSansPro-Light.ttf");
 		}
 		public override long GetItemId(int position)
 		{
 			return position;
 		}
 		public override Data this[int position] {  
-			get { return data[position]; }
+			get { return _data[position]; }
 		}
 		public override int Count {
-			get { return data.Count; }
+			get { return _data.Count; }
 		}
 		public override View GetView(int position, View convertView, ViewGroup parent){
 			if (convertView==null) {
-				convertView = mContext.LayoutInflater.Inflate(Resource.Layout.list_row, null);
+				convertView = _mContext.LayoutInflater.Inflate(Resource.Layout.list_row, null);
 			}
 			try {
-			Data dataEntry = data [position];
+			Data dataEntry = _data [position];
 
 			TextView l1 = (TextView)convertView.FindViewById (Resource.Id.firstLine);
-			l1.SetTypeface (type, TypefaceStyle.Normal);
+			l1.SetTypeface (_type, TypefaceStyle.Normal);
 
-			if (dataEntry.Head == true) {
-				l1.SetTypeface (bold, TypefaceStyle.Bold);
+			if (dataEntry.Head) {
+				l1.SetTypeface (_bold, TypefaceStyle.Bold);
 			}
 			if (Build.VERSION.SdkInt >= BuildVersionCodes.Honeycomb) {
-				if (dataEntry.Entfall == true) {
-					l1.SetTextColor (Android.Graphics.Color.DarkRed);
-				} else if (dataEntry.Mitbetreung == true) {
-					l1.SetTextColor (Android.Graphics.Color.DarkOrange);
-				} else if (dataEntry.Veranstaltung == true) {
-					l1.SetTextColor (Android.Graphics.Color.DarkGreen);
-				} else if (dataEntry.Lehrer != dataEntry.Vertreter) {
-					l1.SetTextColor (Android.Graphics.Color.DarkBlue);
+				if (dataEntry.Outage) {
+					l1.SetTextColor (Color.DarkRed);
+				} else if (dataEntry.Cared) {
+					l1.SetTextColor (Color.DarkOrange);
+				} else if (dataEntry.Event) {
+					l1.SetTextColor (Color.DarkGreen);
+				} else if (dataEntry.Teacher != dataEntry.Cover) {
+					l1.SetTextColor (Color.DarkBlue);
 				}
-				if (dataEntry.Head == true) { l1.SetTextColor (Android.Graphics.Color.Black); }
+				if (dataEntry.Head) { l1.SetTextColor (Color.Black); }
 			}
 
 			TextView l2 = (TextView)convertView.FindViewById (Resource.Id.secondLine);
-			l2.SetTypeface (light, TypefaceStyle.Normal);
+			l2.SetTypeface (_light, TypefaceStyle.Normal);
 			l1.Text = dataEntry.Line1;
 			l2.Text = dataEntry.Line2;
-			} catch {}
-			return convertView;
+			}
+			catch
+			{
+			    // ignored
+			}
+		    return convertView;
 		}
 	}
 }

@@ -1,7 +1,4 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
+﻿using Android.Content;
 
 using UntisExp;
 
@@ -12,7 +9,7 @@ namespace vplan
 	{
 		public override void OnReceive (Context context, Intent intent)
 		{
-			Intent serviceIntent = new Intent ("setup", Android.Net.Uri.Parse (VConfig.url), context, typeof(NotifyService));
+			Intent serviceIntent = new Intent ("setup", Android.Net.Uri.Parse (VConfig.Url), context, typeof(NotifyService));
 			context.StartService(serviceIntent);
 		}
 	}

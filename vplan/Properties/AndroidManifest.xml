@@ -29,12 +29,10 @@
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="vplan.MainActivity" />
     	</activity>-->
-		<service android:name="vplan.NotifyService">
-		</service>
+		<service android:name="vplan.NotifyService"></service>
 		<receiver android:name="vplan.StartupReceiver">
 			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED">
-				</action>
+				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
 			</intent-filter>
 		</receiver>
 	</application>

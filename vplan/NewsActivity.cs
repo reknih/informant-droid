@@ -1,37 +1,35 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-using Android.Support.V7;
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 using UntisExp;
+using UntisExp.Containers;
+using Activity = UntisExp.Activity;
 
 namespace vplan
 {
 	[Activity (Label = "Nachrichten-Liste")]			
 	public class NewsActivity : ActionBarActivity
 	{
-		protected Fetcher fetcher;
-		protected Press p = new Press();
-		protected List<News> globNews = new List<News> ();
-		protected ListView lv;
-		protected int groupn;
-		protected Settings settings;
+	    private Fetcher _fetcher;
+        private readonly Press _p = new Press();
+        private readonly List<News> _globNews = new List<News>();
+        private ListView _lv;
+        private int _groupn;
+        private Settings _settings;
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-			settings = new Settings (this);
+			_settings = new Settings (this);
 			SetContentView (Resource.Layout.News);
 			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
 			//Toolbar will now take on default actionbar characteristics
@@ -39,19 +37,24 @@ namespace vplan
 			SupportActionBar.Title = "Nachrichten";
 			SupportActionBar.SetDisplayHomeAsUpEnabled (true);
 			SupportActionBar.SetHomeButtonEnabled (true);
-			lv = FindViewById<ListView>(Resource.Id.lv);
-			lv.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
-				var t = globNews.ElementAt(e.Position);
-				settings.writeNews ("lastClick", t);
+			_lv = FindViewById<ListView>(Resource.Id.lv);
+			_lv.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
+				var t = _globNews.ElementAt(e.Position);
+				_settings.WriteNews ("lastClick", t);
 				var set = new Intent(this, typeof(NewsItemActivity));
 				StartActivity(set);
 			};
-			try {
-				groupn = (int)settings.read ("group");
-			} catch {
-				groupn = 7;
-			}
-			getFreshNews ();
+		    try
+		    {
+		        _groupn = (int) _settings.Read("group");
+		    }
+		    catch (Exception e)
+		    {
+		        if (e is InvalidCastException || e is NullReferenceException)
+		            _groupn = 7;
+		        throw;
+		    }
+		    GetFreshNews ();
 
 			// Create your application here
 		}
@@ -67,22 +70,30 @@ namespace vplan
 				return base.OnOptionsItemSelected(item);
 			}
 		}
-		public void refreshList(News nn)
+
+	    private void RefreshList(News nn)
 		{
-			globNews.Insert (0, nn);
+			_globNews.Insert (0, nn);
 			RunOnUiThread (() => {
-				lv.Adapter = new NewsAdapter (this, globNews, Assets);
+				_lv.Adapter = new NewsAdapter (this, _globNews, Assets);
 			});
 		}
-		protected async void getFreshNews()
+
+	    private async void GetFreshNews()
 		{
 			var pd = ProgressDialog.Show(this, "", "Nachrichten werden geladen");
-			var newNews = await p.getNews ();
+			var newNews = await _p.GetNews ();
 			pd.Dismiss ();
-			globNews.AddRange (newNews);
-			RunOnUiThread (() => {
-				lv.Adapter = new NewsAdapter (this, globNews, Assets);
-				fetcher = new Fetcher (refreshList, groupn);
+			_globNews.AddRange (newNews);
+			RunOnUiThread (() =>
+			{
+			    _lv.Adapter = new NewsAdapter(this, _globNews, Assets);
+				_fetcher = new Fetcher ();
+			    _fetcher.RaiseRetreivedNewsItem += (sender, args) =>
+			    {
+			        RefreshList(args.News);
+			    };
+			    _fetcher.GetTimes(_groupn, Activity.GetNews);
 			});
 		}
 	}
