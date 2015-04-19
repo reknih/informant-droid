@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
@@ -27,9 +28,9 @@ namespace vplan
 		private readonly List<Data> _list = new List<Data>();
 		private ProgressDialog _pd;
 		private ISettings _settings;
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 			//Typeface.Default = Typeface.CreateFromAsset (Assets, "SourceSansPro-Regular.ttf");
 			//Typeface.DefaultBold = Typeface.CreateFromAsset (Assets, "SourceSansPro-Bold.ttf");
 			// Set our view from the "main" layout resource
@@ -69,15 +70,12 @@ namespace vplan
 			}
 			try {
 				int group = (int)_settings.Read ("group");
-				if (!_fetching) {
-					_fetcher.GetTimes (group);
-					_fetching = true;
-				}
+				_fetcher.GetTimes (group);
+				_fetching = true;
 				_list.Clear();
-			} catch {
+			} catch (NullReferenceException) {
 				var set = new Intent(this, typeof(SettingsActivity));
 				StartActivityForResult(set, 0);
-
 			}
 
 		}
@@ -94,13 +92,9 @@ namespace vplan
 				StartActivity(set);
 				break;
 			case Resource.Id.button2:
-				if (!_fetching) {
-					_fetcher.GetTimes ((int)_settings.Read("group"));
-					_fetching = true;
-					_list.Clear();
-					_pd = ProgressDialog.Show(this, "", "Vertretungen werden geladen" );
-				}
-
+				_fetcher.GetTimes ((int)_settings.Read("group"));
+				_list.Clear();
+				_pd = ProgressDialog.Show(this, "", "Vertretungen werden geladen" );
 				break;
 			}
 			return true;
@@ -112,23 +106,23 @@ namespace vplan
 		protected override void OnResume ()
 		{
 			base.OnResume ();
-			try {
-				int group = (int)_settings.Read("group");
-				if (!_fetching) {
+			if (!_fetching) {
+				try {
+					int group = (int)_settings.Read("group");
 					_fetcher.GetTimes (group);
-					_fetching = true;
+					_list.Clear();
 				}
-				_list.Clear();
-			}
-			catch
-			{
-			    // ignored
+				catch (NullReferenceException)
+				{
+				    // ignored
+				}
 			}
 		}
 
 	    private void Refresh(List<Data> v1) {
 			RunOnUiThread(() => 
 				{
+					_fetching = false;
 					_list.AddRange(v1);
 					_pd.Dismiss();
 					try {
@@ -144,7 +138,6 @@ namespace vplan
 					{
 					    // ignored
 					}
-				    _fetching = false;
 					_lv.Adapter = new DataAdapter (this, _list, Assets);
 					_lv.Invalidate();
 					//FindViewById<ImageButton> (Resource.Id.button2).Clickable = true;

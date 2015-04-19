@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.OS;
 using Android.Views;
@@ -36,10 +37,6 @@ namespace vplan
 			}
 			_lv = FindViewById<ListView>(Resource.Id.lv);
 
-			_pd = new ProgressDialog (this);
-			_pd.SetMessage("Klassen werden geladen");
-			_pd.Show ();
-
 			_fetcher = new Fetcher ();
 		    _fetcher.RaiseErrorMessage += (sender, args) =>
 		    {
@@ -49,7 +46,56 @@ namespace vplan
 		    {
                 Refresh(args.Groups);
 		    };
+			#if LEHRER
+			try {
+				if ((bool)_setti.Read("Teacher") == false)
+					throw new NullReferenceException();
+				_pd = new ProgressDialog (this);
+				_pd.SetMessage("Klassen werden geladen");
+				_pd.Show ();
+
+				_fetcher.GetClasses();
+			} catch (NullReferenceException) {
+				ShowAuthDialogue();
+			}
+			#endif
+			#if !LEHRER
+			_pd = new ProgressDialog (this);
+			_pd.SetMessage("Klassen werden geladen");
+			_pd.Show ();
+
 			_fetcher.GetClasses();
+			#endif
+		}
+		private void ShowAuthDialogue(bool wrongPw = false) {
+			var builder = new AlertDialog.Builder(this);
+			builder.SetTitle("Passwort");
+			var view = LayoutInflater.From(this).Inflate(Resource.Layout.dialog_pw, null);
+			if (wrongPw)
+				view.FindViewById<TextView>(Resource.Id.description).Text = "Ungültiges Passwort. Versuchen Sie es noch einmal.";
+			else
+				view.FindViewById<TextView>(Resource.Id.description).Text = VConfig.EnterPw;
+			builder.SetView(view);
+			builder.SetPositiveButton("Prüfen", ((sender, e) => {
+				if (view.FindViewById<EditText>(Resource.Id.password).Text == VConfig.Password)
+				{
+					_setti.Write("Teacher", true);
+					((AlertDialog)sender).Dismiss();
+					_pd = new ProgressDialog (this);
+					_pd.SetMessage("Klassen werden geladen");
+					_pd.Show ();
+
+					_fetcher.GetClasses();
+				} else {
+					ShowAuthDialogue(true);
+				}
+			}));
+			builder.SetCancelable(false);
+
+			var dia = builder.Create();
+
+			dia.Show();
+
 		}
 		public override bool OnCreateOptionsMenu (IMenu menu)
 		{
@@ -85,9 +131,9 @@ namespace vplan
 	    // ReSharper disable once UnusedMember.Global
 		protected void OnListItemClick(ListView l, View v, int position, long id)
 		{
-			_setti.Write ("group", position + 1);
+			_setti.Write ("group", position - 1);
 			var set = new Intent (this, typeof(MainActivity));
-			Intent.PutExtra ("group", position + 1);
+			Intent.PutExtra ("group", position - 1);
 			SetResult (Result.Ok);
 			StartActivity (set);
 		}

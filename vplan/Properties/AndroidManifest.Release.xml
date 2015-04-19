@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplanteacher" android:versionCode="20" android:versionName="2.5">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="vplan.vplan" android:versionCode="20" android:versionName="2.5">
 	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="21" />
-	<application android:label="CWS Informant" android:theme="@style/AppTheme" android:icon="@drawable/icont">
+	<application android:label="CWS Informant" android:theme="@style/AppTheme" android:icon="@drawable/icon">
 		<!--<activity android:name="vplan.MainActivity" >
 	        <intent-filter >
                 <action android:name="android.intent.action.MAIN" />

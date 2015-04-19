@@ -41,7 +41,7 @@ namespace vplan
 			l2.Visibility = ViewStates.Invisible;
 			convertView.Click += (sender, e) => {
 				Settings s = new Settings(_mContext);
-				s.Write("group", dataEntry.Id + 1);
+				s.Write("group", dataEntry.Id);
 				_mContext.OnBackPressed();
 			};
 			return convertView;
