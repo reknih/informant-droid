@@ -102,10 +102,6 @@
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="packages.config" />
-    <None Include="Properties\AndroidManifest.Debug-Lehrer.xml" />
-    <None Include="Properties\AndroidManifest.Debug.xml" />
-    <None Include="Properties\AndroidManifest.Release-Lehrer.xml" />
-    <None Include="Properties\AndroidManifest.Release.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -113,10 +109,6 @@
     <AndroidResource Include="Resources\layout\list_row.axml" />
     <AndroidResource Include="Resources\drawable\btn.xml" />
     <AndroidResource Include="Resources\layout\Settings.axml" />
-    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\notifications.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\notifications.png" />
@@ -149,14 +141,29 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_home_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_home_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_home_white_24dp.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\Icont.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\Icont.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\Icont.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\Icont.png" />
-    <AndroidResource Include="Resources\layout\dialog_pw.xml" />
   </ItemGroup>
+   <Choose>
+      <When Condition="'$(Configuration)' == 'Release-Lehrer'Or'$(Configuration)' == 'Debug-Lehrer'">
+        <ItemGroup>
+   		 <AndroidResource Include="Resources\drawable-xxhdpi\Icont.png" />
+   		 <AndroidResource Include="Resources\drawable-xhdpi\Icont.png" />
+   		 <AndroidResource Include="Resources\drawable-mdpi\Icont.png" />
+   		 <AndroidResource Include="Resources\drawable-hdpi\Icont.png" />
+   		 <AndroidResource Include="Resources\layout\dialog_pw.xml" />
+        </ItemGroup>
+      </When>
+      <Otherwise>
+        <ItemGroup>
+   		 <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
+   		 <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
+   		 <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
+   		 <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
+       </ItemGroup>
+      </Otherwise>
+    </Choose>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup />
+
   <ItemGroup>
     <ProjectReference Include="..\..\UntisExp\informant-core\UntisExport.csproj">
       <Project>{7E2DE76A-BF93-4B36-9223-D996F1C746CD}</Project>
