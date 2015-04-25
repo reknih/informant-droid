@@ -67,6 +67,8 @@ namespace vplan
 			_fetcher.GetClasses();
 			#endif
 		}
+
+		#if LEHRER
 		private void ShowAuthDialogue(bool wrongPw = false) {
 			var builder = new AlertDialog.Builder(this);
 			builder.SetTitle("Passwort");
@@ -97,6 +99,7 @@ namespace vplan
 			dia.Show();
 
 		}
+		#endif
 		public override bool OnCreateOptionsMenu (IMenu menu)
 		{
 			if (_setti.Read ("group") != null) {
