@@ -30,7 +30,11 @@ namespace vplan
 			var toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
 			//Toolbar will now take on default actionbar characteristics
 			SetSupportActionBar (toolbar);
+#if LEHRER
+			SupportActionBar.Title = "Kürzel";
+#else
 			SupportActionBar.Title = "Klasse / Kurs";
+#endif
 			if (_setti.Read ("group") != null) {
 				SupportActionBar.SetHomeButtonEnabled (true);
 				SupportActionBar.SetDefaultDisplayHomeAsUpEnabled (true);
@@ -51,7 +55,7 @@ namespace vplan
 				if ((bool)_setti.Read("Teacher") == false)
 					throw new NullReferenceException();
 				_pd = new ProgressDialog (this);
-				_pd.SetMessage("Klassen werden geladen");
+				_pd.SetMessage("Kürzel werden geladen");
 				_pd.Show ();
 
 				_fetcher.GetClasses();
